@@ -45,11 +45,17 @@ body {
 h1 {
   margin: 2rem 0;
   font-size: 1.5rem;
+  user-select: none;
 }
 
 input {
   margin: 0.5rem;
   font-size: 1rem;
+  user-select: none;
+}
+
+label {
+  user-select: none;
 }
 
 .wrapper {
@@ -64,7 +70,11 @@ input {
   flex: 1;
 }
 
-input:checked + label {
+.projects-radio-group label:hover {
+  color: #ffffff;
+}
+
+input[type="radio"][name="project"]:checked + label {
   color: #292929;
   background: #d9d9d9;
   font-size: 1.1rem;
@@ -95,4 +105,15 @@ input:checked + label {
 
 .todos {
   flex: 2;
+}
+
+.todo-list label:hover {
+  color: #ffffff;
+}
+
+input[type="checkbox"][name="todo"]:checked + label {
+  color: #292929;
+  background: #d9d9d9;
+  text-decoration: line-through;
+  font-size: 0.95rem;
 }
