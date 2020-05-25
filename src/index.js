@@ -9,16 +9,16 @@ const project = (projectName, projectTodos) => {
   return { projectName, projectTodos, addTodo };
 };
 // Factory function of Todo
-const todo = (title, description, dueDate, priority) => {
-  title, description, dueDate, priority;
-  return { title, description, dueDate, priority };
+const todo = (title, description, dueDate, priority, status) => {
+  title, description, dueDate, priority, (status = false);
+  return { title, description, dueDate, priority, status };
 };
 
 // create project
+projects.push(project("All Todos"));
 projects.push(project("Project 1 Name"));
 projects.push(project("Project 2 Name"));
 projects.push(project("Project 3 Name"));
-console.table(projects);
 
 function renderProjects() {
   // Remove existing elements
@@ -26,29 +26,22 @@ function renderProjects() {
   while (myNode.firstChild) {
     myNode.removeChild(myNode.lastChild);
   }
-  // Render default project
-  const dInput = document.createElement("input");
-  dInput.setAttribute("type", "radio");
-  dInput.setAttribute("id", "projectChoice0");
-  dInput.setAttribute("name", "project");
-  dInput.setAttribute("value", "All Todos");
-  dInput.checked = true;
-  const dLabel = document.createElement("label");
-  dLabel.setAttribute("for", "projectChoice0");
-  dLabel.textContent = "All Todos";
-  const dDiv = document.createElement("div");
-  dDiv.appendChild(dInput);
-  dDiv.appendChild(dLabel);
-  myNode.appendChild(dDiv);
   // Render all projects
   projects.forEach((p) => {
     const pInput = document.createElement("input");
     pInput.setAttribute("type", "radio");
-    pInput.setAttribute("id", `projectChoice${projects.indexOf(p) + 1}`);
+    pInput.setAttribute("id", `projectIndex${projects.indexOf(p)}`);
     pInput.setAttribute("name", "project");
     pInput.setAttribute("value", p.projectName);
+    pInput.setAttribute("data-index", projects.indexOf(p));
+    pInput.addEventListener("change", () => {
+      renderTodos();
+    });
+    if (projects.indexOf(p) === 0) {
+      pInput.checked = true;
+    }
     const pLabel = document.createElement("label");
-    pLabel.setAttribute("for", `projectChoice${projects.indexOf(p) + 1}`);
+    pLabel.setAttribute("for", `projectIndex${projects.indexOf(p)}`);
     pLabel.textContent = p.projectName;
     const pDiv = document.createElement("div");
     pDiv.appendChild(pInput);
@@ -58,16 +51,88 @@ function renderProjects() {
 }
 
 renderProjects();
-renderProjects();
-renderProjects();
 
 // add todo to project
-projects[0].addTodo(
-  todo(
-    "Todo 1 Title",
-    "Todo 1 Description",
-    "Todo 1 Due Date",
-    "Todo 1 Priority"
-  )
+projects[1].addTodo(
+  todo("Project 1 Todo 1", "Todo Description", "Todo Due Date", "Todo Priority")
 );
-console.table(projects[0].projectTodos);
+projects[1].addTodo(
+  todo("Project 1 Todo 2", "Todo Description", "Todo Due Date", "Todo Priority")
+);
+projects[3].addTodo(
+  todo("Project 3 Todo 1", "Todo Description", "Todo Due Date", "Todo Priority")
+);
+
+function renderTodos() {
+  const myNode = document.querySelector(".todo-list");
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.lastChild);
+  }
+  const index = document.querySelector(
+    'input[type="radio"][name="project"]:checked'
+  ).dataset.index;
+  if (index == 0) {
+    projects.forEach((p) => {
+      const pIndex = projects.indexOf(p);
+      p.projectTodos.forEach((t) => {
+        const tInput = document.createElement("input");
+        tInput.setAttribute("type", "checkbox");
+        tInput.setAttribute(
+          "id",
+          `project${projects.indexOf(p)}todo${p.projectTodos.indexOf(t)}`
+        );
+        tInput.setAttribute(
+          "name",
+          `project${projects.indexOf(p)}todo${p.projectTodos.indexOf(t)}`
+        );
+        tInput.setAttribute(
+          "data-index",
+          projects[pIndex].projectTodos.indexOf(t)
+        );
+        t.status ? (tInput.checked = true) : (tInput.status = false);
+        const tLabel = document.createElement("label");
+        tLabel.setAttribute(
+          "for",
+          `project${projects.indexOf(p)}todo${p.projectTodos.indexOf(t)}`
+        );
+        tLabel.textContent = t.title;
+        const tDiv = document.createElement("div");
+        tDiv.appendChild(tInput);
+        tDiv.appendChild(tLabel);
+        myNode.appendChild(tDiv);
+      });
+    });
+  } else {
+    projects[index].projectTodos.forEach((t) => {
+      const tInput = document.createElement("input");
+      tInput.setAttribute("type", "checkbox");
+      tInput.setAttribute(
+        "id",
+        `todoIndex${projects[index].projectTodos.indexOf(t)}`
+      );
+      tInput.setAttribute(
+        "name",
+        `todoIndex${projects[index].projectTodos.indexOf(t)}`
+      );
+      tInput.setAttribute(
+        "data-index",
+        projects[index].projectTodos.indexOf(t)
+      );
+      t.status ? (tInput.checked = true) : (tInput.status = false);
+      const tLabel = document.createElement("label");
+      tLabel.setAttribute(
+        "for",
+        `todoIndex${projects[index].projectTodos.indexOf(t)}`
+      );
+      tLabel.textContent = t.title;
+      const tDiv = document.createElement("div");
+      tDiv.appendChild(tInput);
+      tDiv.appendChild(tLabel);
+      myNode.appendChild(tDiv);
+    });
+  }
+}
+
+renderTodos();
+
+console.log(projects);
