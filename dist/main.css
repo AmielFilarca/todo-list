@@ -117,3 +117,29 @@ input[type="checkbox"][name="todo"]:checked + label {
   text-decoration: line-through;
   font-size: 0.95rem;
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    margin: 5%;
+    width: 100vw;
+  }
+  .todos {
+    flex: 1;
+  }
+  h1 {
+    font-size: 0.95rem;
+    margin: 1rem 0;
+  }
+  body {
+    font-size: 0.8rem;
+  }
+  input[type="radio"][name="project"]:checked + label {
+    font-size: 0.9rem;
+  }
+  input[type="checkbox"][name="todo"]:checked + label {
+    font-size: 0.75rem;
+  }
+  .add-button {
+    font-size: 0.8rem;
+  }
+}
