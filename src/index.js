@@ -1,12 +1,17 @@
 // Array of Projects
 let projects = [];
-// Factory function of Project
-const project = (projectName, projectTodos) => {
-  projectName, (projectTodos = []);
+// Factory function for the default project
+const defaultProject = (projectName, status) => {
+  projectName, (projectTodos = []), (status = false);
+  return { projectName, projectTodos, status };
+};
+// Factory function for projects
+const project = (projectName, projectTodos, status) => {
+  projectName, (projectTodos = []), (status = false);
   const addTodo = (todo) => {
     projectTodos.push(todo);
   };
-  return { projectName, projectTodos, addTodo };
+  return { projectName, projectTodos, status, addTodo };
 };
 // Factory function of Todo
 const todo = (title, description, dueDate, priority, status) => {
@@ -15,7 +20,7 @@ const todo = (title, description, dueDate, priority, status) => {
 };
 
 // create project
-projects.push(project("All Todos"));
+projects.push(defaultProject("All Todos"));
 projects.push(project("Project 1 Name"));
 projects.push(project("Project 2 Name"));
 projects.push(project("Project 3 Name"));
@@ -81,15 +86,15 @@ function renderTodos() {
           "id",
           `project${projects.indexOf(p)}todo${p.projectTodos.indexOf(t)}`
         );
-        tInput.setAttribute(
-          "name",
-          `project${projects.indexOf(p)}todo${p.projectTodos.indexOf(t)}`
-        );
+        tInput.setAttribute("name", "todo");
         tInput.setAttribute(
           "data-index",
           projects[pIndex].projectTodos.indexOf(t)
         );
         t.status ? (tInput.checked = true) : (tInput.status = false);
+        tInput.addEventListener("change", () => {
+          t.status = tInput.checked;
+        });
         const tLabel = document.createElement("label");
         tLabel.setAttribute(
           "for",
@@ -110,15 +115,15 @@ function renderTodos() {
         "id",
         `todoIndex${projects[index].projectTodos.indexOf(t)}`
       );
-      tInput.setAttribute(
-        "name",
-        `todoIndex${projects[index].projectTodos.indexOf(t)}`
-      );
+      tInput.setAttribute("name", "todo");
       tInput.setAttribute(
         "data-index",
         projects[index].projectTodos.indexOf(t)
       );
       t.status ? (tInput.checked = true) : (tInput.status = false);
+      tInput.addEventListener("change", () => {
+        t.status = tInput.checked;
+      });
       const tLabel = document.createElement("label");
       tLabel.setAttribute(
         "for",
@@ -134,5 +139,3 @@ function renderTodos() {
 }
 
 renderTodos();
-
-console.log(projects);
