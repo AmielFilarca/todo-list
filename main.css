@@ -175,7 +175,7 @@ input[type="checkbox"][name="todo"]:checked + label {
   font: 0.75rem "Fira Sans", sans-serif;
   padding: 0;
   background: inherit;
-  color: #292929;
+  color: #585858;
   user-select: none;
 }
 
@@ -197,15 +197,24 @@ input[type="text"] {
   border: none;
   margin: 0;
   padding: 0;
+  color: #292929;
+}
+
+::placeholder {
+  color: #838383;
 }
 
 @media (max-width: 800px) {
   .wrapper {
-    margin: 5%;
+    margin: 5% 10px;
     max-width: 90vw;
   }
+  .projects {
+    padding: 0;
+    max-width: 10rem;
+  }
   .todos {
-    flex: 2;
+    flex: 1.2;
   }
   h1 {
     font-size: 0.95rem;
@@ -225,5 +234,20 @@ input[type="text"] {
   }
   .projects-add {
     margin: 1rem 0.5rem;
+  }
+  input[type="text"] {
+    width: 7.5rem;
+    font-size: 0.8rem;
+  }
+  .edit-button {
+    font-size: 0.65rem;
+  }
+  .projects-radio-group label {
+    max-width: 6rem;
+    overflow: scroll;
+    white-space: nowrap;
+  }
+  .todo-add {
+    margin: 0 1.5rem 1rem;
   }
 }
