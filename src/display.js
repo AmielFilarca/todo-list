@@ -14,7 +14,15 @@ function renderProjects() {
     pInput.setAttribute("name", "project");
     pInput.setAttribute("value", p.projectName);
     pInput.setAttribute("data-index", projects.indexOf(p));
-    pInput.addEventListener("change", () => {
+    pInput.addEventListener("change", (e) => {
+      const projectDivs = document.querySelectorAll("div[data-index]");
+      projectDivs.forEach((div) => {
+        div.classList.remove("active-project");
+      });
+      const div = document.querySelector(
+        `div[data-index='div${e.target.dataset.index}']`
+      );
+      div.classList.add("active-project");
       renderTodos();
     });
     // Select default project on render
@@ -25,10 +33,13 @@ function renderProjects() {
     pLabel.setAttribute("for", `projectIndex${projects.indexOf(p)}`);
     pLabel.textContent = p.projectName;
     const pDiv = document.createElement("div");
+    pDiv.setAttribute("data-index", `div${projects.indexOf(p)}`);
     pDiv.appendChild(pInput);
     pDiv.appendChild(pLabel);
     myNode.appendChild(pDiv);
   });
+  const defaultDiv = document.querySelector(`div[data-index='div0']`);
+  defaultDiv.classList.add("active-project");
 }
 
 function renderTodos() {
@@ -107,6 +118,9 @@ function renderTodos() {
         `todoIndex${projects[index].projectTodos.indexOf(t)}`
       );
       tLabel.textContent = t.title;
+      const editBtn = document.createElement("button");
+      editBtn.setAttribute("class", "edit-button");
+      editBtn;
       const tDiv = document.createElement("div");
       tDiv.appendChild(tInput);
       tDiv.appendChild(tLabel);
@@ -127,6 +141,14 @@ addProjectBtn.addEventListener("click", () => {
   );
   radioBtn.checked = true;
   renderTodos();
+  const projectDivs = document.querySelectorAll("div[data-index]");
+  projectDivs.forEach((div) => {
+    div.classList.remove("active-project");
+  });
+  const div = document.querySelector(
+    `div[data-index='div${projects.length - 1}']`
+  );
+  div.classList.add("active-project");
 });
 
 function addTodoBtnOnClick() {
