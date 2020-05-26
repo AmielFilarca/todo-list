@@ -24,6 +24,10 @@ function renderProjects() {
       );
       div.classList.add("active-project");
       renderTodos();
+      // Add edit button
+      const editBtn = document.createElement("button");
+      editBtn.setAttribute("class", "edit-button");
+      editBtn.textContent = "Edit";
     });
     // Select default project on render
     if (projects.indexOf(p) === 0) {
@@ -118,9 +122,6 @@ function renderTodos() {
         `todoIndex${projects[index].projectTodos.indexOf(t)}`
       );
       tLabel.textContent = t.title;
-      const editBtn = document.createElement("button");
-      editBtn.setAttribute("class", "edit-button");
-      editBtn;
       const tDiv = document.createElement("div");
       tDiv.appendChild(tInput);
       tDiv.appendChild(tLabel);
