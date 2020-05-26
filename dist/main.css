@@ -162,4 +162,7 @@ input[type="checkbox"][name="todo"]:checked + label {
   .add-button {
     font-size: 0.8rem;
   }
+  .projects-add {
+    margin: 1rem 0.5rem;
+  }
 }

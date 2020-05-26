@@ -22,21 +22,7 @@ const todo = (title, description, dueDate, priority, status) => {
   return { title, description, dueDate, priority, status };
 };
 
-// create project
+// Create default project
 projects.push(defaultProject("All Todos"));
-projects.push(project("Project 1"));
-projects.push(project("Project 2"));
-projects.push(project("Project 3"));
-
-// add todo to project
-projects[1].addTodo(
-  todo("Project 1 Todo 1", "Description", "Due Date", "Priority")
-);
-projects[1].addTodo(
-  todo("Project 1 Todo 2", "Description", "Due Date", "Priority")
-);
-projects[3].addTodo(
-  todo("Project 3 Todo 1", "Description", "Due Date", "Priority")
-);
 
 export { projects, project, todo };
