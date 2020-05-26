@@ -13,7 +13,10 @@ const project = (projectName, projectTodos, status) => {
   const addTodo = (todo) => {
     projectTodos.push(todo);
   };
-  return { projectName, projectTodos, status, addTodo };
+  const setName = (name) => {
+    projectName = name;
+  };
+  return { projectName, projectTodos, status, addTodo, setName };
 };
 
 // Factory function of Todo

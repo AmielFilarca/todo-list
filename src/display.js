@@ -23,11 +23,21 @@ function renderProjects() {
         `div[data-index='div${e.target.dataset.index}']`
       );
       div.classList.add("active-project");
+      const editBtns = document.querySelectorAll(".edit-button");
+      editBtns.forEach((btn) => {
+        btn.classList.add("hidden");
+      });
       renderTodos();
-      // Add edit button
-      const editBtn = document.createElement("button");
-      editBtn.setAttribute("class", "edit-button");
-      editBtn.textContent = "Edit";
+      if (
+        document.querySelector(
+          `.edit-button[data-index='${e.target.dataset.index}']`
+        )
+      ) {
+        const activeEditBtn = document.querySelector(
+          `.edit-button[data-index='${e.target.dataset.index}']`
+        );
+        activeEditBtn.classList.remove("hidden");
+      }
     });
     // Select default project on render
     if (projects.indexOf(p) === 0) {
@@ -40,7 +50,55 @@ function renderProjects() {
     pDiv.setAttribute("data-index", `div${projects.indexOf(p)}`);
     pDiv.appendChild(pInput);
     pDiv.appendChild(pLabel);
+    // Add edit button
+    if (projects.indexOf(p) != 0) {
+      const editBtn = document.createElement("button");
+      editBtn.setAttribute("class", "edit-button");
+      editBtn.setAttribute("data-index", projects.indexOf(p));
+      editBtn.textContent = "edit";
+      editBtn.addEventListener("click", (e) => {
+        editBtn.classList.add("hidden");
+        const currentLabel = document.querySelector(
+          `label[for='projectIndex${projects.indexOf(p)}']`
+        );
+        const currentText = currentLabel.textContent;
+        currentLabel.classList.add("hidden");
+        const textInput = document.createElement("input");
+        textInput.setAttribute("type", "text");
+        textInput.setAttribute("placeholder", currentText);
+        textInput.addEventListener("focusout", () => {
+          if (textInput.value.trim() != "") {
+            p.projectName = textInput.value;
+          }
+          renderProjects();
+          const radioBtn = document.getElementById(
+            `projectIndex${projects.indexOf(p)}`
+          );
+          radioBtn.checked = true;
+          const defaultDiv = document.querySelector(`div[data-index='div0']`);
+          defaultDiv.classList.remove("active-project");
+          const newDiv = document.querySelector(
+            `div[data-index='div${projects.indexOf(p)}']`
+          );
+          newDiv.classList.add("active-project");
+          const activeEditBtn = document.querySelector(
+            `.edit-button[data-index='${e.target.dataset.index}']`
+          );
+          activeEditBtn.classList.remove("hidden");
+        });
+        const div = document.querySelector(
+          `div[data-index='div${projects.indexOf(p)}']`
+        );
+        div.appendChild(textInput);
+        textInput.focus();
+      });
+      pDiv.appendChild(editBtn);
+    }
     myNode.appendChild(pDiv);
+  });
+  const editBtns = document.querySelectorAll(".edit-button");
+  editBtns.forEach((btn) => {
+    btn.classList.add("hidden");
   });
   const defaultDiv = document.querySelector(`div[data-index='div0']`);
   defaultDiv.classList.add("active-project");
@@ -150,6 +208,10 @@ addProjectBtn.addEventListener("click", () => {
     `div[data-index='div${projects.length - 1}']`
   );
   div.classList.add("active-project");
+  const activeEditBtn = document.querySelector(
+    `.edit-button[data-index='${projects.length - 1}']`
+  );
+  activeEditBtn.classList.remove("hidden");
 });
 
 function addTodoBtnOnClick() {
